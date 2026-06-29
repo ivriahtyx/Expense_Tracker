@@ -7,17 +7,34 @@ A modern expense tracking mobile application built with Flutter that helps users
 ## 📱 Features
 
 ### Current Features
-- 📊 Dashboard displaying total amount spent
-- ➕ Add new expenses
+- 📊 Dashboard displaying Current balance, Total income, Total expenses and Number of transactions
+- ➕ Add new transactions
+- 💵 Support for both Income and Expense transactions
+- 🗂 Dynamic categories based on transaction type
 - 📝 Expense form with input validation
 - 📅 Date picker for selecting expense date
-- 🗂 Categorize expenses (Food, Transport, Shopping, Other)
-- 📋 View all recorded expenses
+- 📋 View all recorded transactions
 - 💾 SQLite local database integration
 - 🔄 Persistent data storage across app restarts
+- ➖ Income and expense indicators with positive and negative amounts
+
+### 📂 Supported Categories
+Expense Categories
+- 🍽️ Food
+- 🚗 Transport
+- 🛒 Shopping
+- 🎬 Entertainment
+- 🏠 Housing
+- 🏥 Health
+- ✈️ Travel
+- 🧾 Other
+Income Categories
+- 💼 Salary
+- 💵 Petty Cash
+- 📈 Investment
+- 💲 Other
 
 ### Planned Features
-- ✏️ Edit existing expenses
 - 🗑 Delete expenses
 - 📈 Monthly spending summary
 - 📊 Expense charts and analytics
@@ -115,7 +132,8 @@ intl:
 ## 🖼 Screenshots
 
 > Screenshots will be added as the application develops.
-
+![alt text](homepage.png)
+![alt text](addpage.png)
 ---
 
 ## 📖 Learning Objectives

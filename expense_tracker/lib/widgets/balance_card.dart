@@ -2,11 +2,15 @@ import 'package:flutter/material.dart';
 
 class BalanceCard extends StatelessWidget {
   final double balance;
+  final double totalIncome;
+  final double totalExpense;
   final int transactionCount;
 
   const BalanceCard({
     super.key,
     required this.balance,
+    required this.totalIncome,
+    required this.totalExpense,
     required this.transactionCount,
   });
 
@@ -15,26 +19,62 @@ class BalanceCard extends StatelessWidget {
     return Card(
       elevation: 4,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(20),
       ),
       child: Padding(
         padding: const EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Row(
+            const Text(
+              'Current Balance',
+              style: TextStyle(
+                color: Colors.grey,
+              ),
+            ),
+
+            const SizedBox(height: 8),
+
+            Text(
+              '\$${balance.toStringAsFixed(2)}',
+              style: const TextStyle(
+                fontSize: 32,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+
+            const SizedBox(height: 24),
+
+            Row(
+              mainAxisAlignment:
+                  MainAxisAlignment.spaceAround,
               children: [
-                Icon(
-                  Icons.account_balance_wallet,
-                  color: Colors.green,
+                Column(
+                  children: [
+                    const Text('Income'),
+                    const SizedBox(height: 4),
+                    Text(
+                      '\$${totalIncome.toStringAsFixed(2)}',
+                      style: const TextStyle(
+                        color: Colors.green,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
                 ),
-                SizedBox(width: 8),
-                Text(
-                  "Total Spent",
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
-                  ),
+
+                Column(
+                  children: [
+                    const Text('Expense'),
+                    const SizedBox(height: 4),
+                    Text(
+                      '\$${totalExpense.toStringAsFixed(2)}',
+                      style: const TextStyle(
+                        color: Colors.red,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
@@ -42,34 +82,10 @@ class BalanceCard extends StatelessWidget {
             const SizedBox(height: 20),
 
             Text(
-              "\$${balance.toStringAsFixed(2)}",
+              '$transactionCount Transactions',
               style: const TextStyle(
-                fontSize: 32,
-                fontWeight: FontWeight.bold,
+                color: Colors.grey,
               ),
-            ),
-
-            const SizedBox(height: 20),
-
-            const Divider(),
-
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text(
-                  "Transactions",
-                  style: TextStyle(
-                    color: Colors.grey,
-                  ),
-                ),
-                Text(
-                  "$transactionCount",
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                  ),
-                ),
-              ],
             ),
           ],
         ),

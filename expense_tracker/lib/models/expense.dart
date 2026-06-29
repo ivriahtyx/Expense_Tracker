@@ -3,6 +3,7 @@ class Expense {
   final double amount;
   final String description;
   final String category;
+  final String type; // 'Income' or 'Expense'
   final DateTime date;
 
   const Expense({
@@ -10,6 +11,7 @@ class Expense {
     required this.amount,
     required this.description,
     required this.category,
+    required this.type,
     required this.date,
   });
 
@@ -20,6 +22,7 @@ class Expense {
       'description': description,
       'category': category,
       'date': date.toIso8601String(),
+      'type': type,
     };
   }
 
@@ -30,6 +33,7 @@ class Expense {
       description: map['description'] as String,
       category: map['category'] as String,
       date: DateTime.parse(map['date'] as String),
+      type: map['type'] as String,
     );
   }
 

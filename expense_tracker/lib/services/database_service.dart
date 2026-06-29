@@ -40,6 +40,7 @@ class DatabaseService {
         amount REAL NOT NULL,
         description TEXT NOT NULL,
         category TEXT NOT NULL,
+        type TEXT NOT NULL,
         date TEXT NOT NULL
       )
     ''');

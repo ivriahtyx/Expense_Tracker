@@ -13,12 +13,37 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
   
   final TextEditingController _amountController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
+  
   final _formKey = GlobalKey<FormState>();
+
+  String _selectedType = 'Expense'; // Default type
   String _selectedCategory = 'Food'; // Default category
   DateTime _selectedDate = DateTime.now();
 
+
+  final List<Map<String, dynamic>> _expenseCategories = [
+    {'label': 'Food', 'icon': Icons.restaurant},
+    {'label': 'Transport', 'icon': Icons.directions_car},
+    {'label': 'Shopping', 'icon': Icons.shopping_cart},
+    {'label': 'Entertainment', 'icon': Icons.movie},
+    {'label': 'Housing', 'icon': Icons.home},
+    {'label': 'Health', 'icon': Icons.local_hospital},
+    {'label': 'Travel', 'icon': Icons.flight},
+    {'label': 'Other', 'icon': Icons.receipt},
+  ];
+
+  final List<Map<String, dynamic>> _incomeCategories = [
+    {'label': 'Salary', 'icon': Icons.work},
+    {'label': 'Petty Cash', 'icon': Icons.payments},
+    {'label': 'Investment', 'icon': Icons.trending_up},
+    {'label': 'Other', 'icon': Icons.attach_money},
+  ];
+
   @override
   Widget build(BuildContext context) {
+    final categories = _selectedType == 'Expense'
+    ? _expenseCategories
+    : _incomeCategories;
     return Scaffold(
       appBar: AppBar(
         title: const Text("Add Expense"),
@@ -31,6 +56,35 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch, //for full page form
             children: [
+
+                SegmentedButton<String>(
+                  segments: const [
+                    ButtonSegment<String>(
+                      value: 'Expense',
+                      label: Text('Expense'),
+                      icon: Icon(Icons.remove_circle_outline),
+                    ),
+                    ButtonSegment<String>(
+                      value: 'Income',
+                      label: Text('Income'),
+                      icon: Icon(Icons.add_circle_outline),
+                    ),
+                  ],
+                  selected: {_selectedType},
+                  onSelectionChanged: (selection) {
+                    setState(() {
+                      _selectedType = selection.first;
+
+                      if (_selectedType == 'Expense') {
+                        _selectedCategory = 'Food';
+                      } else {
+                        _selectedCategory = 'Salary';
+                      }
+                    });
+                  },
+                ),
+
+                const SizedBox(height: 20),
                 
                 TextFormField(
                   decoration: const InputDecoration(labelText: 'Amount'),
@@ -54,16 +108,23 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
                 DropdownButtonFormField<String>(
                   decoration: const InputDecoration(labelText: 'Category'),
                   value: _selectedCategory,
-                  items: ['Food', 'Transport', 'Shopping', 'Other']
-                      .map((category) => DropdownMenuItem(
-                            value: category,
-                            child: Text(category),
-                          ))
-                      .toList(),
+                  items: categories.map((category) {
+                    return DropdownMenuItem<String>(
+                      value: category['label'] as String,
+                      child: Row(
+                        children: [
+                          Icon(
+                            category['icon'] as IconData,
+                            size: 20,
+                          ),
+                          const SizedBox(width: 8),
+                          Text(category['label'] as String),
+                        ],
+                      ),
+                    );
+                  }).toList(),
                   onChanged: (value) {
-                    // Handle category selection
                     setState(() {
-                      // Update the selected category
                       _selectedCategory = value!;
                     });
                   },
@@ -139,6 +200,7 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
         amount: amount,
         description: _descriptionController.text.trim(),
         category: _selectedCategory,
+        type: _selectedType,
         date: _selectedDate,
       ); 
       await ExpenseService.instance.addExpense(expense);

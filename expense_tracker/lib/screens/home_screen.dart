@@ -18,7 +18,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
   //final expenses = ExpenseService.instance.getExpenses();
     List<Expense> _expenses = [];
-    double _total = 0.0;
+
+    double _balance = 0;
+    double _totalIncome = 0;
+    double _totalExpense = 0;
 
     @override
     void initState() {
@@ -29,14 +32,24 @@ class _HomeScreenState extends State<HomeScreen> {
     Future<void> _loadExpenses() async {
       final expenses = await ExpenseService.instance.getExpenses();
 
-      double total = 0;
-      for (final expense in expenses) {
-        total += expense.amount;
+      double income = 0;
+      double expense = 0;
+
+      for (final transaction in expenses) {
+        if (transaction.type == 'Income') {
+          income += transaction.amount;
+        } else {
+          expense += transaction.amount;
+        }
       }
+
+      final balance = income - expense;
 
       setState(() {
         _expenses = expenses;
-        _total = total;
+        _totalIncome = income;
+        _totalExpense = expense;
+        _balance = balance;
       });
     }
 
@@ -70,7 +83,13 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              BalanceCard(balance: _total, transactionCount: _expenses.length),
+              BalanceCard(
+                balance: _balance,
+                totalIncome: _totalIncome,
+                totalExpense: _totalExpense,
+                transactionCount: _expenses.length,
+              ),
+
               const SizedBox(height: 24),
 
               const Text(
@@ -89,9 +108,14 @@ class _HomeScreenState extends State<HomeScreen> {
                   amount: expense.amount,
                   date: expense.date,
                   category: expense.category,
-                  icon: expense.category == 'Food' ? Icons.fastfood : 
+                  type: expense.type,
+                  icon: expense.category == 'Food' ? Icons.restaurant : 
                          expense.category == 'Transport' ? Icons.directions_car : 
                          expense.category == 'Shopping' ? Icons.shopping_cart : 
+                         expense.category == 'Entertainment' ? Icons.movie : 
+                         expense.category == 'Housing' ? Icons.home : 
+                         expense.category == 'Health' ? Icons.local_hospital : 
+                         expense.category == 'Travel' ? Icons.flight : 
                          Icons.receipt, // You can customize this based on category
                 ),               
             ],
