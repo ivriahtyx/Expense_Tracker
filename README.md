@@ -132,8 +132,15 @@ intl:
 ## 🖼 Screenshots
 
 > Screenshots will be added as the application develops.
-![alt text](homepage.png)
-![alt text](addpage.png)
+<p align="center">
+  <img src="screenshot/homepage.png" width="250">
+  <img src="screenshot/addpage.png" width="250">
+</p>
+
+<p align="center">
+  <b>Home Screen</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <b>Add Transaction</b>
+</p>
 ---
 
 ## 📖 Learning Objectives
